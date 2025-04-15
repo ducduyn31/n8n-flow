@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 x-n8n: &n8n-common
   image: n8nio/n8n:latest
@@ -8,6 +8,8 @@ x-n8n: &n8n-common
     N8N_HOST: localhost
     N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
     NODE_ENV: production
+    N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true
+    N8N_RUNNERS_ENABLED: true
     WEBHOOK_URL: http://localhost:5678/
     
     DB_TYPE: postgresdb
@@ -36,11 +38,11 @@ services:
       - ./shared:/data/shared
     depends_on:
       postgres:
-        - condition: service_healthy
+        condition: service_healthy
       qdrant:
-        - condition: service_healthy
+        condition: service_healthy
       workflow-importer:
-        - condition: service_completed_successfully
+        condition: service_completed_successfully
 
   postgres:
     image: postgres:16
@@ -86,11 +88,11 @@ services:
         echo 'Importing workflows credentials...' &&
         n8n import:credentials --separated --input=/backup/credentials &&
         echo 'Importing workflows from backup...' &&
-        n8n import:workflow --separated --input=/backup/workflows.json &&
+        n8n import:workflow --separated --input=/backup/workflows &&
         echo 'Workflow import completed!'
       "
     volumes:
-      - ./n8n/backup:/backup
+      - ./backup:/backup
     depends_on:
       - postgres
     restart: "no"  # Run once and exit
@@ -101,7 +103,7 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@luxuryescapes.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:

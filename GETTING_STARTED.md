@@ -30,12 +30,12 @@ If you have existing n8n workflows to import:
 
 1. Export workflows from your existing n8n instance:
    ```bash
-   n8n export:workflow --all --separated --output=./n8n/backup/workflows
+   n8n export:workflow --all --separate --output=/backup/workflows
    ```
 
 2. Export credentials from your existing n8n instance:
    ```bash
-   n8n export:credentials --all --separated --output=./n8n/backup/credentials
+   n8n export:credentials --all --separate --output=/backup/credentials
    ```
 
 ### 3. Start the System
