@@ -13,7 +13,7 @@ The project follows a phased approach:
 
 The initial MVP focuses on a Slack bot that:
 
-- Responds to a `/summarize` command in incident investigation threads
+- Responds to an interactivity request on a thread `Explain the Incident`
 - Analyzes the conversation to extract key information:
   - Incident cause
   - Impact
